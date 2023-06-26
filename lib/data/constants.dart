@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 
 const double cardAspectRatio = 0.88;
 
+const Map<String, TextInputType> typeMap = {
+  'text': TextInputType.text,
+  'number': TextInputType.number,
+};
+
 const kChatBackGround = Color.fromRGBO(47, 57, 63, 1);
 const kRadiumGreen = Color.fromRGBO(215, 254, 106, 1);
 const kBackGroundColor = Color.fromRGBO(31, 30, 30, 1);
-const kAiMsgBg = Color.fromRGBO(173, 245, 40, 1);
+const kAiMsgBg = Color.fromRGBO(40, 245, 238, 1.0);
 const kUsrMsgBg = Color.fromRGBO(69, 84, 88, 1);
 const kButtonColor = Color.fromRGBO(241, 105, 26, 1);
 const kCodeBgColor = Color.fromRGBO(42, 45, 48, 1);

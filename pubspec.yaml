@@ -41,6 +41,13 @@ dependencies:
   shared_preferences:
   flutter_svg:
   flutter_spinkit:
+  animated_icon:
+  markdown:
+  flutter_markdown:
+  wiredash:
+  shimmer:
+  flutter_rating_bar:
+  lottie:
 
 dev_dependencies:
   flutter_test:

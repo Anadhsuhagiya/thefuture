@@ -8,13 +8,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thefuture/data/constants.dart';
 import 'package:thefuture/widgets/appTitle.dart';
+import 'package:thefuture/widgets/dummyCard.dart';
+import 'package:thefuture/widgets/made_with.dart';
 import 'package:thefuture/widgets/mySearch.dart';
 import 'package:thefuture/widgets/onlineStatus.dart';
+import 'package:thefuture/widgets/support_us.dart';
 
 import '../data/globals.dart';
 import '../models/appDataModel.dart';
 import '../services/apiService.dart';
+import '../widgets/cardWidget.dart';
 import 'chatPage.dart';
+import 'myForm.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -70,8 +75,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         print("Home error: $err");
       }
     }
-
-
   }
 
   @override
@@ -131,87 +134,150 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 MySearchBar(
-                    chatController: chatController,
-                    hintText: "Ask Anything You Want...",
-                    suffixIcon: Padding(padding: EdgeInsets.all(8),
-                      child: InkWell(
-                        onTap: () {
-                          HapticFeedback.heavyImpact();
-                          _aniController.forward().then((value) => _aniController.reset());
+                  chatController: chatController,
+                  hintText: "Ask Anything You Want...",
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: InkWell(
+                      onTap: () {
+                        HapticFeedback.heavyImpact();
+                        _aniController
+                            .forward()
+                            .then((value) => _aniController.reset());
 
-                          if (openai && isAPIValidated == false) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                behavior: SnackBarBehavior.floating,
-                                content: Text('Enter a valid API Key'),
-                                backgroundColor: kRed,
-                                duration: Duration(seconds: 1),
+                        if (openai && isAPIValidated == false) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              content: Text('Enter a valid API Key'),
+                              backgroundColor: kRed,
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        } else if (!isOnline) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              content: Text(
+                                  'Server is Down 🔻. Please, try again later!!'),
+                              backgroundColor: kGrey,
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        } else if (chatController.text.isNotEmpty) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChatScreen(
+                                queryController: chatController.text,
+                                isFormRoute: false,
                               ),
-                            );
-                          } else if (!isOnline) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                behavior: SnackBarBehavior.floating,
-                                content: Text('Server is Down 🔻. Please, try again later!!'),
-                                backgroundColor: kGrey,
-                                duration: Duration(seconds: 1),
+                            ),
+                          ).then((value) => chatController.clear());
+                        } else if (chatController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              width: 200,
+                              behavior: SnackBarBehavior.floating,
+                              content: Text(
+                                'Please write something',
+                                style: GoogleFonts.montserrat(
+                                    textStyle: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold)),
                               ),
-                            );
-                          } else if (chatController.text.isNotEmpty) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ChatScreen(
-                                  queryController: chatController.text,
-                                  isFormRoute: false,
-                                ),
-                              ),
-                            ).then((value) => chatController.clear());
-                          }
-                          else if(chatController.text.isEmpty){
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                width: 200,
-                                behavior: SnackBarBehavior.floating,
-                                content: Text('Please write something',style: GoogleFonts.montserrat(textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)),),
-                                backgroundColor: kGrey,
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
-                          }
+                              backgroundColor: kGrey,
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        }
 
-                          FocusScope.of(context).unfocus();
-
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(23),
-                            color: kBlack,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(6.0),
-                            child: RotationTransition(
-                              turns: Tween(begin: 0.0, end: 1.5).animate(_aniController!),
-                              child: SvgPicture.asset(
-                                'images/openai.svg',
-                                color: Colors.white,
-                                width: 20,
-                              ),
+                        FocusScope.of(context).unfocus();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(23),
+                          color: kBlack,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: RotationTransition(
+                            turns: Tween(begin: 0.0, end: 1.5)
+                                .animate(_aniController!),
+                            child: SvgPicture.asset(
+                              'images/openai.svg',
+                              color: Colors.white,
+                              width: 20,
                             ),
                           ),
                         ),
                       ),
                     ),
-                    onComplete: () {
-                      
-                    },
-                    onChanged: () {
-                      
-                    },)
+                  ),
+                  onComplete: () {},
+                  onChanged: () {},
+                ),
+
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 10),
+                                child: Text(
+                                  "Topics For You",
+                                  style: GoogleFonts.montserrat(
+                                      textStyle: TextStyle(
+                                          color: kWhite,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              )
+                            ],
+                          ),
+                          appData.isEmpty
+                              ? dummy_cards()
+                              : GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: cardAspectRatio,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                  ),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            itemCount: appData.length,
+                                  itemBuilder: (context, index) {
+                                    final data = appData[index];
+                                    return CardWidget(
+                                      id: data.id,
+                                      data: data,
+                                      pageRoute: MyForm(id: data.id, title: data.title),
+                                    );
+                                  },
+                                ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+
+                          SupportUs(),
+                          MadeWith()
+                        ],
+                      ),
+                    ),
+                  ),
               ],
             )
           ],

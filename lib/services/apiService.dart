@@ -9,7 +9,7 @@ import '../models/appDataModel.dart';
 class ApiService {
   static Future<String> fetchApi(String apiKey, String content) async {
     try {
-      const String defaultUrl = 'https://chimeragpt.adventblocks.cc/v1/chat/completions';
+      const String defaultUrl = 'https://api.hypere.app/v1/chat/completions';
       const String openaiUrl = 'https://api.openai.com/v1/chat/completions';
       String url = openai ? openaiUrl : defaultUrl;
 
@@ -19,7 +19,7 @@ class ApiService {
       };
 
       final Map<String, dynamic> data = {
-        'model': openai ? 'gpt-3.5-turbo' : 'gpt-4',
+        'model': 'gpt-3.5-turbo',
         'messages': [
           {
             'role': 'user',

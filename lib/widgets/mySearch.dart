@@ -43,7 +43,7 @@ class _MySearchBarState extends State<MySearchBar> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: FrostedGlass(
         widget: TextField(
-          cursorColor: kRadiumGreen,
+          cursorColor: kAiMsgBg,
           maxLines: 4,
           minLines: 1,
           style:  GoogleFonts.montserrat(textStyle: TextStyle(
@@ -56,14 +56,14 @@ class _MySearchBarState extends State<MySearchBar> {
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(width: 3, color: kRadiumGreen),
+              borderSide: BorderSide(width: 3, color: kAiMsgBg),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(width: 3, color: kRadiumGreen),
+              borderSide: BorderSide(width: 3, color: kAiMsgBg),
             ),
             hintText: widget.hintText,
-            hintStyle: const TextStyle(color: kWhite),
+            hintStyle: const TextStyle(color: kWhite,fontSize: 14),
             filled: true,
             fillColor: kBlack.withOpacity(0.5),
             suffixIcon: widget.suffixIcon,
